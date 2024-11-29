@@ -4,12 +4,11 @@ importer="scene"
 importer_version=1
 type="PackedScene"
 uid="uid://dw651exs120s4"
-path="res://.godot/imported/house.glb-05d2aab736056b1bb71b47b254f061aa.scn"
+valid=false
 
 [deps]
 
-source_file="res://addons/procgen_arcana/models/house.glb"
-dest_files=["res://.godot/imported/house.glb-05d2aab736056b1bb71b47b254f061aa.scn"]
+source_file="res://addons/gd-procgen-arcana-addon/models/house.glb"
 
 [params]
 

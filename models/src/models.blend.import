@@ -4,11 +4,12 @@ importer="scene"
 importer_version=1
 type="PackedScene"
 uid="uid://cwx3bgm5wi4wr"
-valid=false
+path="res://.godot/imported/models.blend-500eebb179077717af9b8b791cd6c4a2.scn"
 
 [deps]
 
-source_file="res://addons/procgen_arcana/models/src/models.blend"
+source_file="res://addons/gd-procgen-arcana-addon/models/src/models.blend"
+dest_files=["res://.godot/imported/models.blend-500eebb179077717af9b8b791cd6c4a2.scn"]
 
 [params]
 

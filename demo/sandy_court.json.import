@@ -1,3 +1,13 @@
 [remap]
 
-importer="skip"
+importer="procgen_arcana"
+uid="uid://darujx6hg40nx"
+path="res://.godot/imported/sandy_court.json-22bd4286d63ddfbe468bb43048ebfffb.json"
+
+[deps]
+
+source_file="res://addons/gd-procgen-arcana-addon/demo/sandy_court.json"
+dest_files=["res://.godot/imported/sandy_court.json-22bd4286d63ddfbe468bb43048ebfffb.json"]
+
+[params]
+

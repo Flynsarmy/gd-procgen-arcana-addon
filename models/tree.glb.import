@@ -4,12 +4,11 @@ importer="scene"
 importer_version=1
 type="PackedScene"
 uid="uid://cr65k5y0cj6fv"
-path="res://.godot/imported/tree.glb-d9281b567c3f520291a156cde059bb66.scn"
+valid=false
 
 [deps]
 
-source_file="res://addons/procgen_arcana/models/tree.glb"
-dest_files=["res://.godot/imported/tree.glb-d9281b567c3f520291a156cde059bb66.scn"]
+source_file="res://addons/gd-procgen-arcana-addon/models/tree.glb"
 
 [params]
 

@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://ca8pxuj5nnb0m"
-path="res://.godot/imported/sandy_court.jpg-7e53328bdff074487ea0b229e26d8057.ctex"
+path="res://.godot/imported/sandy_court.jpg-1bad71847742aed044f58fb118790769.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://addons/procgen_arcana/demo/sandy_court.jpg"
-dest_files=["res://.godot/imported/sandy_court.jpg-7e53328bdff074487ea0b229e26d8057.ctex"]
+source_file="res://addons/gd-procgen-arcana-addon/demo/sandy_court.jpg"
+dest_files=["res://.godot/imported/sandy_court.jpg-1bad71847742aed044f58fb118790769.ctex"]
 
 [params]
 

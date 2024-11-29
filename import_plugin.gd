@@ -3,10 +3,8 @@ extends EditorImportPlugin
 
 enum PRESETS { DEFAULT }
 
+const IMPORT_SETTINGS: ProcgenImportSettings = preload("res://addons/gd-procgen-arcana-addon/ProcGen_DefaultImportSettings.tres")
 
-const COL_EARTH: Color = Color(0.533, 0.655, 0.482)
-const COL_ROAD: Color = Color(0.219, 0.219, 0.219)
-const COL_WATER: Color = Color(0.357, 0.608, 0.655)
 
 func _get_importer_name() -> String:
 	return "procgen_arcana"
@@ -92,7 +90,7 @@ func _import_earth(scene_root: Node3D, data: Variant) -> void:
 	var max_xy: Vector2 = -Vector2.INF
 
 	var mat: StandardMaterial3D = StandardMaterial3D.new()
-	mat.albedo_color = COL_EARTH
+	mat.albedo_color = IMPORT_SETTINGS.COL_EARTH
 
 	var verts: PackedVector2Array
 	for point in data.coordinates[0]:
@@ -114,7 +112,7 @@ func _import_buildings(scene_root: Node3D, data: Variant) -> void:
 	scene_root.add_child(parent)
 	parent.set_owner(scene_root)
 
-	var mesh: ArrayMesh = ResourceLoader.load("res://addons/procgen_arcana/models/meshes/house_House.res")
+	var house_scene : PackedScene = IMPORT_SETTINGS.house_mesh
 
 	var num: int = 0
 	for building in data.coordinates:
@@ -122,10 +120,9 @@ func _import_buildings(scene_root: Node3D, data: Variant) -> void:
 		var coord_data: Dictionary = get_coord_data(building[0])
 
 		# Make the building
-		var m: MeshInstance3D = MeshInstance3D.new()
+		var m:Node3D = house_scene.instantiate()
 		#m.name = "building_%s" % num
 		m.name = "building_%s" % num
-		m.mesh = mesh
 		m.scale = Vector3(coord_data.width, 1, coord_data.depth)
 		m.position = coord_data.center
 		m.rotation.y = coord_data['rotation']
@@ -249,7 +246,7 @@ func _import_roads(scene_root: Node3D, data: Variant) -> void:
 	parent.set_owner(scene_root)
 
 	var mat: StandardMaterial3D = StandardMaterial3D.new()
-	mat.albedo_color = COL_ROAD
+	mat.albedo_color = IMPORT_SETTINGS.COL_ROAD
 
 	var num: int = 0
 	for geo in data.geometries:
@@ -286,7 +283,7 @@ func _import_squares(scene_root: Node3D, data: Variant) -> void:
 	parent.set_owner(scene_root)
 
 	var mat: StandardMaterial3D = StandardMaterial3D.new()
-	mat.albedo_color = COL_ROAD
+	mat.albedo_color = IMPORT_SETTINGS.COL_ROAD
 
 	var num: int = 0
 	for coord in data.coordinates:
@@ -314,15 +311,14 @@ func _import_trees(scene_root: Node3D, data: Variant) -> void:
 	scene_root.add_child(parent)
 	parent.set_owner(scene_root)
 
-	var mesh: ArrayMesh = ResourceLoader.load("res://addons/procgen_arcana/models/meshes/tree_Tree.res")
-
+	var tree_scene : PackedScene = IMPORT_SETTINGS.tree_mesh
+	
 	var num: int = 0
 	for coord in data.coordinates:
 		# Make the building
-		var m: MeshInstance3D = MeshInstance3D.new()
+		var m:Node3D = tree_scene.instantiate()
 		#m.name = "building_%s" % num
 		m.name = "tree_%s" % num
-		m.mesh = mesh
 		m.position = Vector3(coord[0], 0, -coord[1])
 		parent.add_child(m)
 		m.set_owner(scene_root)
@@ -331,7 +327,7 @@ func _import_trees(scene_root: Node3D, data: Variant) -> void:
 
 func _import_water(scene_root: Node3D, data: Variant) -> void:
 	var mat: StandardMaterial3D = StandardMaterial3D.new()
-	mat.albedo_color = COL_WATER
+	mat.albedo_color = IMPORT_SETTINGS.COL_WATER
 
 	var verts: PackedVector2Array
 	for point in data.coordinates[0][0]:
@@ -354,10 +350,10 @@ func _import_water(scene_root: Node3D, data: Variant) -> void:
 	# Both nodes then need to be lowered by 0.01 so we're not overlapping fields,
 	# roads etc
 	if data.coordinates.size() > 1:
-		csg.material.albedo_color = COL_EARTH
+		csg.material.albedo_color = IMPORT_SETTINGS.COL_EARTH
 		csg.position.y -= 0.01
 		var earth: CSGPolygon3D = scene_root.get_node("earth")
-		earth.material.albedo_color = COL_WATER
+		earth.material.albedo_color = IMPORT_SETTINGS.COL_WATER
 		earth.position.y -= 0.01
 
 
