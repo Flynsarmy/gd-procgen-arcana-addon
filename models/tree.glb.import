@@ -4,11 +4,12 @@ importer="scene"
 importer_version=1
 type="PackedScene"
 uid="uid://cr65k5y0cj6fv"
-valid=false
+path="res://.godot/imported/tree.glb-d9281b567c3f520291a156cde059bb66.scn"
 
 [deps]
 
-source_file="res://addons/gd-procgen-arcana-addon/models/tree.glb"
+source_file="res://addons/procgen_arcana/models/tree.glb"
+dest_files=["res://.godot/imported/tree.glb-d9281b567c3f520291a156cde059bb66.scn"]
 
 [params]
 
@@ -38,7 +39,7 @@ _subresources={
 "generate/shadow_meshes": 0,
 "lods/normal_merge_angle": 60.0,
 "lods/normal_split_angle": 25.0,
-"save_to_file/enabled": true,
+"save_to_file/enabled": false,
 "save_to_file/path": "res://addons/procgen_arcana/models/meshes/tree_Tree.res"
 }
 }

@@ -3,9 +3,6 @@ extends EditorImportPlugin
 
 enum PRESETS { DEFAULT }
 
-const IMPORT_SETTINGS: ProcgenImportSettings = preload("res://addons/gd-procgen-arcana-addon/ProcGen_DefaultImportSettings.tres")
-
-
 func _get_importer_name() -> String:
 	return "procgen_arcana"
 
@@ -30,9 +27,40 @@ func _get_import_order() -> int:
 func _get_import_options(path: String, preset_index: int) -> Array[Dictionary]:
 	match preset_index:
 		PRESETS.DEFAULT:
-			return []
+			return [
+				{
+					"name": "house_scene",
+					"default_value": _abspath("models/house.glb"),
+					"property_hint": PROPERTY_HINT_FILE,
+					"hint_string": "*.glb,*.gltf,*.fbx,*.tscn"
+				},
+				{
+					"name": "tree_scene",
+					"default_value": _abspath("models/tree.glb"),
+					"property_hint": PROPERTY_HINT_FILE,
+					"hint_string": "*.glb,*.gltf,*.fbx,*.tscn"
+				},
+				{
+					"name": "col_earth",
+					"default_value": Color(0.533, 0.655, 0.482),
+					"property_hint": PROPERTY_HINT_COLOR_NO_ALPHA
+				},
+				{
+					"name": "col_road",
+					"default_value": Color(0.219, 0.219, 0.219),
+					"property_hint": PROPERTY_HINT_COLOR_NO_ALPHA
+				},
+				{
+					"name": "col_water",
+					"default_value": Color(0.357, 0.608, 0.655),
+					"property_hint": PROPERTY_HINT_COLOR_NO_ALPHA
+				}
+			]
 		_:
 			return []
+
+func _get_option_visibility(path: String, option_name: StringName, options: Dictionary) -> bool:
+	return true
 
 func _get_preset_count():
 	return PRESETS.size()
@@ -64,7 +92,7 @@ func _import(source_file: String, save_path: String, options: Dictionary, platfo
 
 	for row in json.features:
 		if has_method("_import_" + row.id):
-			call("_import_" + row.id, root, row)
+			call("_import_" + row.id, root, row, options)
 
 	var scene = PackedScene.new()
 	var pack_result = scene.pack(root)
@@ -85,12 +113,12 @@ func _import(source_file: String, save_path: String, options: Dictionary, platfo
 
 
 
-func _import_earth(scene_root: Node3D, data: Variant) -> void:
+func _import_earth(scene_root: Node3D, data: Variant, options: Dictionary) -> void:
 	var min_xy: Vector2 = Vector2.INF
 	var max_xy: Vector2 = -Vector2.INF
 
 	var mat: StandardMaterial3D = StandardMaterial3D.new()
-	mat.albedo_color = IMPORT_SETTINGS.COL_EARTH
+	mat.albedo_color = options.col_earth
 
 	var verts: PackedVector2Array
 	for point in data.coordinates[0]:
@@ -106,13 +134,13 @@ func _import_earth(scene_root: Node3D, data: Variant) -> void:
 	csg.depth = 0.02
 
 
-func _import_buildings(scene_root: Node3D, data: Variant) -> void:
+func _import_buildings(scene_root: Node3D, data: Variant, options: Dictionary) -> void:
 	var parent: Node3D = Node3D.new()
 	parent.name = data.id
 	scene_root.add_child(parent)
 	parent.set_owner(scene_root)
 
-	var house_scene : PackedScene = IMPORT_SETTINGS.house_mesh
+	var house_scene : PackedScene = load(options.house_scene)
 
 	var num: int = 0
 	for building in data.coordinates:
@@ -133,7 +161,7 @@ func _import_buildings(scene_root: Node3D, data: Variant) -> void:
 		num += 1
 
 
-func _import_fields(scene_root: Node3D, data: Variant) -> void:
+func _import_fields(scene_root: Node3D, data: Variant, options: Dictionary) -> void:
 	var parent: Node3D = Node3D.new()
 	parent.name = data.id
 	scene_root.add_child(parent)
@@ -161,7 +189,7 @@ func _import_fields(scene_root: Node3D, data: Variant) -> void:
 		num += 1
 
 
-func _import_palisade(scene_root: Node3D, data: Variant) -> void:
+func _import_palisade(scene_root: Node3D, data: Variant, options: Dictionary) -> void:
 	var parent: Node3D = Node3D.new()
 	parent.name = data.id
 	scene_root.add_child(parent)
@@ -203,7 +231,7 @@ func _import_palisade(scene_root: Node3D, data: Variant) -> void:
 		num += 1
 
 
-func _import_planks(scene_root: Node3D, data: Variant) -> void:
+func _import_planks(scene_root: Node3D, data: Variant, options: Dictionary) -> void:
 	var parent: Node3D = Node3D.new()
 	parent.name = data.id
 	scene_root.add_child(parent)
@@ -239,14 +267,14 @@ func _import_planks(scene_root: Node3D, data: Variant) -> void:
 		])
 
 
-func _import_roads(scene_root: Node3D, data: Variant) -> void:
+func _import_roads(scene_root: Node3D, data: Variant, options: Dictionary) -> void:
 	var parent: Node3D = Node3D.new()
 	parent.name = data.id
 	scene_root.add_child(parent)
 	parent.set_owner(scene_root)
 
 	var mat: StandardMaterial3D = StandardMaterial3D.new()
-	mat.albedo_color = IMPORT_SETTINGS.COL_ROAD
+	mat.albedo_color = options.col_road
 
 	var num: int = 0
 	for geo in data.geometries:
@@ -276,14 +304,14 @@ func _import_roads(scene_root: Node3D, data: Variant) -> void:
 
 		num += 1
 
-func _import_squares(scene_root: Node3D, data: Variant) -> void:
+func _import_squares(scene_root: Node3D, data: Variant, options: Dictionary) -> void:
 	var parent: Node3D = Node3D.new()
 	parent.name = data.id
 	scene_root.add_child(parent)
 	parent.set_owner(scene_root)
 
 	var mat: StandardMaterial3D = StandardMaterial3D.new()
-	mat.albedo_color = IMPORT_SETTINGS.COL_ROAD
+	mat.albedo_color = options.col_road
 
 	var num: int = 0
 	for coord in data.coordinates:
@@ -305,14 +333,14 @@ func _import_squares(scene_root: Node3D, data: Variant) -> void:
 
 
 
-func _import_trees(scene_root: Node3D, data: Variant) -> void:
+func _import_trees(scene_root: Node3D, data: Variant, options: Dictionary) -> void:
 	var parent: Node3D = Node3D.new()
 	parent.name = data.id
 	scene_root.add_child(parent)
 	parent.set_owner(scene_root)
 
-	var tree_scene : PackedScene = IMPORT_SETTINGS.tree_mesh
-	
+	var tree_scene : PackedScene = load(options.tree_scene)
+
 	var num: int = 0
 	for coord in data.coordinates:
 		# Make the building
@@ -325,9 +353,9 @@ func _import_trees(scene_root: Node3D, data: Variant) -> void:
 
 		num += 1
 
-func _import_water(scene_root: Node3D, data: Variant) -> void:
+func _import_water(scene_root: Node3D, data: Variant, options: Dictionary) -> void:
 	var mat: StandardMaterial3D = StandardMaterial3D.new()
-	mat.albedo_color = IMPORT_SETTINGS.COL_WATER
+	mat.albedo_color = options.col_water
 
 	var verts: PackedVector2Array
 	for point in data.coordinates[0][0]:
@@ -350,12 +378,19 @@ func _import_water(scene_root: Node3D, data: Variant) -> void:
 	# Both nodes then need to be lowered by 0.01 so we're not overlapping fields,
 	# roads etc
 	if data.coordinates.size() > 1:
-		csg.material.albedo_color = IMPORT_SETTINGS.COL_EARTH
+		csg.material.albedo_color = options.col_earth
 		csg.position.y -= 0.01
 		var earth: CSGPolygon3D = scene_root.get_node("earth")
-		earth.material.albedo_color = IMPORT_SETTINGS.COL_WATER
+		earth.material.albedo_color = options.col_water
 		earth.position.y -= 0.01
 
+
+# Takes a relative path string and converts it to absolute from the current file.
+func _abspath(path: String) -> String:
+	var dir: PackedStringArray = self.get_script().get_path().split('/')
+	dir.resize(dir.size() - 1)
+
+	return "%s/%s" % ["/".join(dir), path]
 
 func get_coord_data(coords: Variant) -> Dictionary:
 	var dict: Dictionary = {}

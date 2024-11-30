@@ -2,12 +2,17 @@
 
 importer="procgen_arcana"
 uid="uid://darujx6hg40nx"
-path="res://.godot/imported/sandy_court.json-22bd4286d63ddfbe468bb43048ebfffb.json"
+path="res://.godot/imported/sandy_court.json-e687d988ac8a60f5118a257666532714.json"
 
 [deps]
 
-source_file="res://addons/gd-procgen-arcana-addon/demo/sandy_court.json"
-dest_files=["res://.godot/imported/sandy_court.json-22bd4286d63ddfbe468bb43048ebfffb.json"]
+source_file="res://addons/procgen_arcana/demo/sandy_court.json"
+dest_files=["res://.godot/imported/sandy_court.json-e687d988ac8a60f5118a257666532714.json"]
 
 [params]
 
+house_scene=""
+tree_scene=""
+col_earth=Color(0.533, 0.655, 0.482, 1)
+col_road=Color(0.219, 0.219, 0.219, 1)
+col_water=Color(0.357, 0.608, 0.655, 1)

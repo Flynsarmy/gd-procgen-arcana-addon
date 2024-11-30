@@ -4,11 +4,12 @@ importer="scene"
 importer_version=1
 type="PackedScene"
 uid="uid://dw651exs120s4"
-valid=false
+path="res://.godot/imported/house.glb-05d2aab736056b1bb71b47b254f061aa.scn"
 
 [deps]
 
-source_file="res://addons/gd-procgen-arcana-addon/models/house.glb"
+source_file="res://addons/procgen_arcana/models/house.glb"
+dest_files=["res://.godot/imported/house.glb-05d2aab736056b1bb71b47b254f061aa.scn"]
 
 [params]
 
@@ -38,7 +39,7 @@ _subresources={
 "generate/shadow_meshes": 0,
 "lods/normal_merge_angle": 60.0,
 "lods/normal_split_angle": 25.0,
-"save_to_file/enabled": true,
+"save_to_file/enabled": false,
 "save_to_file/path": "res://addons/procgen_arcana/models/meshes/house_House.res"
 }
 }
